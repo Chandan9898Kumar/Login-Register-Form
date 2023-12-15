@@ -1,15 +1,56 @@
 const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// To separate the CSS so that we can load it directly from dist/index.html, use the mini-css-extract-loader Webpack plugin.
+
+const isProd = process.env.NODE_SHELL_ENV === 'production';
+
+// this will update the process.env with environment variables in .env file
+dotenv.config();
 
 module.exports = {
+  name: 'React Bundle',
+
+  // production || development
+  mode: 'development',
+  // Inform webpack that we're building a bundle
+  // for web, rather then for the browser
+  target: 'web',
+
+  // Tell webpack the root file of our
   entry: './src/index.js',
+
+  devtool: isProd && 'source-map',
+
+  resolve: {
+    alias: {
+      process: "process/browser"
+  },
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'], // other stuff
+    fallback: {
+      fs: false,
+      path: require.resolve('path-browserify'),
+    },
+  },
+
+  // Tell webpack where to put the output file that is generated
   output: {
     path: path.resolve(__dirname, 'build'),
     publicPath: '/', // publicPath allows you to specify the base path for all the assets within your application.
     filename: 'chunk.[name].[chunkhash].js', // Creating chunk files with this name.
+    libraryTarget: 'umd',
   },
   devServer: {
+    // Prints compilation progress in percentage in the browser.
+    client: {
+      progress: true,
+    },
+    // stats: {
+    //   cached: false
+    // },
     port: 3000,
     historyApiFallback: true, // historyAPIFallback will redirect 404s to /index.html
     static: {
@@ -20,6 +61,10 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.m?js$/,
+        type: 'javascript/auto',
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -37,7 +82,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/env'],
+            presets: ['@babel/preset-env'],
             plugins: ['@babel/plugin-proposal-class-properties'],
           },
         },
@@ -72,5 +117,32 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
+    // new webpack.EnvironmentPlugin({
+    //   NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
+    //   DEBUG: false,
+    // }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
+    }),
   ],
+
+  // plugins:[
+  //   new webpack.DefinePlugin({
+  //     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+  //     WEBPACK: true
+  //   }),
+  // ],
+
+  // plugins: [
+  //   new webpack.ProvidePlugin({
+  //     process: 'process/browser',
+  //   }),
+  // ],
+
+  optimization: {
+    minimize: true,
+  },
 };

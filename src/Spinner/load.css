@@ -1,0 +1,89 @@
+body {
+  margin: 0;
+  top: 0;
+  box-sizing: border-box;
+}
+
+.loaderMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 200px;
+  margin: auto;
+
+  position: relative;
+}
+
+.loaderChild {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 18px solid black;
+  border-top: 15px solid whitesmoke;
+  color: darkgray;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  font-style: italic;
+  font-size: large;
+  animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*  Note  :   
+The @media  is a type of At-rule in CSS. These rules will dictate what the CSS will look like based on certain conditions.
+
+The media type refers to the category of media for the device. The different media types include all, print, screen and speech.
+
+all - works for all devices
+print - works for devices where the media is in print preview mode
+screen - works for devices with screens
+speech - works for devices like screen readers where the content is read out loud to the user
+
+
+*/
+
+/* There are two different resolutions for laptops. */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  .loaderMain {
+    top: 300px;
+  }
+}
+
+@media only screen and (min-width: 1030px) and (max-width: 1366px) {
+  .loaderMain {
+    top: 200px;
+  }
+}
+
+/* resolutions for Desktops. */
+@media only screen and (min-width: 1370px) and (max-width: 1605px) {
+  .loaderMain {
+    top: 300px;
+  }
+}
+
+@media only screen and (min-width: 1610px) and (max-width: 2000px) {
+  .loaderMain {
+    top: 300px;
+  }
+}
+
+/*  For Mobiles */
+@media only screen and (min-width: 360px) and (max-width: 768px) {
+  .loaderMain {
+    top: 200px;
+  }
+}
