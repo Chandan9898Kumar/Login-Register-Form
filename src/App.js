@@ -3,22 +3,18 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 const Loader = lazy(() => import('./Spinner/Loader'));
 function App() {
-  // let vari = process.env.NODE_ENV 
-  // // let url= process.env.REACT_APP_API_URL
-  // console.log(vari,'processsssssssssssssssssssssssssss',process.env.REACT_APP_API_KEY) 
+
   return (
     <div>
       <Suspense fallback={<Loader />}>
-      <Loader />
-      
-        {/* <BrowserRouter basename="/">
+        <BrowserRouter basename="/">
           <Routes>
-            <Route exact path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route exact path="/" element={<Loader />} />
+            {/* <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter> */}
+        </BrowserRouter>
       </Suspense>
     </div>
   );
