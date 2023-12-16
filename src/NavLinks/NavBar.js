@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import './links.css';
 
 const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(false);
@@ -10,23 +11,38 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
+    <div className="topNav">
       <div>
-        <div>
-          <ul>
-            <li>
-              <NavLink to="/">DashBoard</NavLink>
-            </li>
-            <li>
-              <NavLink to="/application">Application</NavLink>
-            </li>
-            <li>
-              <NavLink to="/recording">Recording</NavLink>
-            </li>
-          </ul>
-        </div>
+        <NavLink
+          to="/"
+          caseSensitive
+          className={({ isActive }) => (isActive ? 'isActive' : '')}
+        >
+          DashBoard
+        </NavLink>
       </div>
-    </nav>
+      <div>
+        <NavLink
+          to="/application"
+          caseSensitive
+          className={({ isActive }) => (isActive ? 'isActive' : '')}
+        >
+          Application
+        </NavLink>
+      </div>
+      <div>
+        <NavLink
+          to="/recording"
+          caseSensitive
+          className={({ isActive }) => (isActive ? 'isActive' : '')}
+        >
+          Recording
+        </NavLink>
+      </div>
+      <div className="btn">
+        <button>Logout</button>
+      </div>
+    </div>
   );
 };
 
