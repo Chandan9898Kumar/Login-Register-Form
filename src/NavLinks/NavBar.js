@@ -1,15 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './links.css';
 
-const Navbar = () => {
-  const [showNavbar, setShowNavbar] = useState(false);
-
-  const handleShowNavbar = () => {
-    setShowNavbar(!showNavbar);
-  };
-
+const Navbar = ({ setUserValidate }) => {
   return (
     <div className="topNav">
       <div>
@@ -40,7 +33,7 @@ const Navbar = () => {
         </NavLink>
       </div>
       <div className="btn">
-        <button>Logout</button>
+        <button onClick={(event) => setUserValidate(false)}>Logout</button>
       </div>
     </div>
   );

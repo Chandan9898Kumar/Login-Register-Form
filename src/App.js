@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { Navigate, Outlet } from 'react-router-dom';
 import './App.css';
@@ -11,21 +11,25 @@ const Application = lazy(() => import('./Components/Application'));
 const Recording = lazy(() => import('./Components/Recording'));
 
 function App() {
-  let customerValid = false;
+  const [userValidate, setUserValidate] = useState(false);
+
   return (
     <div className="App">
       <Suspense fallback={<Loader />}>
         <BrowserRouter basename="/">
-          {customerValid && <NavLinks />}
+          {userValidate && <NavLinks setUserValidate={setUserValidate} />}
           <Routes>
-            <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/login" element={<LoginPage setUserValidate={setUserValidate} />} />
             <Route exact path="/register" element={<RegisterPage />} />
+            
             {/*               These  are Private Routes                                */}
-            <Route exact path="/" element={<PrivateRoute />}>
+
+            <Route exact path="/" element={<PrivateRoute userValidate={userValidate} />}>
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/application" element={<Application />} />
               <Route exact path="/recording" element={<Recording />} />
             </Route>
+
             {/*                             OR Below Method            */}
             {/* <Route exact path="/" element={isAuth ? <Loader /> : <Navigate to="/login"  />}/> */}
 
@@ -57,13 +61,13 @@ export function NotFound() {
   );
 }
 
-export const PrivateRoute = () => {
-  const auth = false; // determine if authorized, from context or however you're doing it
+export const PrivateRoute = ({ userValidate }) => {
+  // determine if authorized, from context or however you're doing it
 
   // If authorized, return an outlet that will render child elements
   // If not, return element that will navigate to login page.
   //  User can't go to home page whose base url "/" until they are verified, but they can go to other routes if we do not put Route inside <PrivateRoute />.
-  return auth ? <Outlet /> : <Navigate to="/login" />;
+  return userValidate ? <Outlet /> : <Navigate to="/login" />;
 };
 
 // The Outlet component alone allows nested routes to render their element content out and anything else the layout route is rendering, i.e. navbars, sidebars, specific layout components, etc.

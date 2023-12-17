@@ -1,0 +1,23 @@
+body {
+  box-sizing: border-box;
+}
+
+.mainContent {
+  display: block;
+  width: 100%;
+}
+
+.formStyle {
+  display: block;
+  margin: auto;
+  width: max-content;
+  margin-top: 10%;
+}
+
+button {
+  width: -webkit-fill-available;
+}
+
+.visible {
+  visibility: hidden;
+}

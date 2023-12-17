@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const CleanObsoleteChunks = require('webpack-clean-obsolete-chunks');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // To separate the CSS so that we can load it directly from dist/index.html, use the mini-css-extract-loader Webpack plugin.
 
@@ -27,8 +27,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      process: "process/browser"
-  },
+      process: 'process/browser',
+    },
     extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'], // other stuff
     fallback: {
       fs: false,
@@ -42,6 +42,7 @@ module.exports = {
     publicPath: '/', // publicPath allows you to specify the base path for all the assets within your application.
     filename: 'chunk.[name].[chunkhash].js', // Creating chunk files with this name.
     libraryTarget: 'umd',
+    clean: true,
   },
   devServer: {
     // Prints compilation progress in percentage in the browser.
@@ -110,6 +111,15 @@ module.exports = {
     ],
   },
   plugins: [
+    new CleanObsoleteChunks({
+      // Write logs to console.
+      // Default: true
+      verbose: true,
+
+      // Clean obsolete chunks of webpack child compilations.
+      // Default: false
+      deep: true,
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve('./public/index.html'),
     }),
