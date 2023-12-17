@@ -55,3 +55,8 @@ module.exports = {
     })
   ]
 }
+
+
+### We used api here :-
+
+`https://mock-api.binaryboxtuts.com`
