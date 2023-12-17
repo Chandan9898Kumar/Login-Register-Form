@@ -2,30 +2,51 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
-const LoginPage = ({setUserValidate}) => {
+const LoginPage = ({ setUserValidate }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [validationErrors, setValidationErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
 
-
-
-
-
-const handleSubmit=(event)=>{
-  event.preventDefault();
-  setUserValidate(true)
-  navigate('/')
-}
-
+    let payload = {
+      email,
+      password,
+    };
+    axios
+      .post('/api/login', payload)
+      .then((response) => {
+        console.log(response,'response')
+        setIsSubmitting(false);
+        setUserValidate(true)
+        setValidationErrors('')
+        // From this navigation we are going Route '/' which is  base Route where our protected routes are defined on that route if condition is true then we will go dashboard else redirect to login.
+        navigate('/')
+      })
+      .catch((error) => {
+        console.log(error,'error')
+        setIsSubmitting(false);
+        if (error.response.data.errors != undefined) {
+          setValidationErrors(error.response.data.errors);
+        }
+        if (error.response.data.error != undefined) {
+          setValidationErrors(error.response.data.error);
+        }
+      });
+  };
 
   return (
     <>
       <div className="mainContent">
         <form className="formStyle" onSubmit={handleSubmit}>
-          <div className="signIn" style={{ color: 'blue',marginBottom:'10px' }}>
+          <div
+            className="signIn"
+            style={{ color: 'blue', marginBottom: '10px' }}
+          >
             SignIn.
           </div>
           <div class="mb-3">
@@ -51,6 +72,11 @@ const handleSubmit=(event)=>{
             <div id="emailHelp" class="form-text">
               We'll never share your email with anyone else.
             </div>
+            {Boolean(validationErrors) && (
+            <div style={{ color: 'red', width: 'max-content' }}>
+              {validationErrors}
+            </div>
+          )}
           </div>
           <div class="mb-3">
             <label
@@ -69,7 +95,7 @@ const handleSubmit=(event)=>{
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-primary" disabled={isSubmitting}>
             Login
           </button>
 
