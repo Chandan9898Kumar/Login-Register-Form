@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const DashboardPage = () => {
-  return <>Dash Board...</>;
+ 
+
+  return (
+    <>
+      <div>Dash Board...</div>
+    </>
+  );
 };
 export default DashboardPage;

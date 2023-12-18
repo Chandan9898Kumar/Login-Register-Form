@@ -17,14 +17,14 @@ function App() {
     <div className="App">
       <Suspense fallback={<Loader />}>
         <BrowserRouter basename="/">
-          {userValidate && <NavLinks setUserValidate={setUserValidate} />}
+          {/* {userAuth && <NavLinks setUserValidate={setUserValidate} />} */}
           <Routes>
-            <Route exact path="/login" element={<LoginPage setUserValidate={setUserValidate} />} />
+            <Route exact path="/login" element={<LoginPage />} />
             <Route exact path="/register" element={<RegisterPage />} />
             
             {/*               These  are Private Routes                                */}
 
-            <Route exact path="/" element={<PrivateRoute userValidate={userValidate} />}>
+            <Route exact path="/" element={<PrivateRoute setUserValidate={setUserValidate} />}>
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/application" element={<Application />} />
               <Route exact path="/recording" element={<Recording />} />
@@ -61,13 +61,37 @@ export function NotFound() {
   );
 }
 
-export const PrivateRoute = ({ userValidate }) => {
+export const PrivateRoute = ({setUserValidate}) => {
   // determine if authorized, from context or however you're doing it
+  let userAuth = JSON.parse(localStorage.getItem('userValidation'));
+// If you are entering the url directing into the browser, React will reload completely and you will lose all state whether 'global' or otherwise.
+//  so to maintain it we are using localStorage.
+
 
   // If authorized, return an outlet that will render child elements
   // If not, return element that will navigate to login page.
   //  User can't go to home page whose base url "/" until they are verified, but they can go to other routes if we do not put Route inside <PrivateRoute />.
-  return userValidate ? <Outlet /> : <Navigate to="/login" />;
+
+  if (!userAuth) {
+    return <Navigate to="/login" />;
+  }
+  return (
+    <div>
+      {userAuth && (
+        <div>
+          <NavLinks  setUserValidate={setUserValidate}/>
+          <Outlet />
+        </div>
+      )}
+    </div>
+  );
 };
 
 // The Outlet component alone allows nested routes to render their element content out and anything else the layout route is rendering, i.e. navbars, sidebars, specific layout components, etc.
+
+
+
+//  Note :-
+
+// If you are entering the url directing into the browser, React will reload completely and you will lose all state whether 'global' or otherwise.
+// The most likely scenario is that your router is trying to validate your ability to view a component before you have your auth data.

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import './login.css';
-const LoginPage = ({ setUserValidate }) => {
+const LoginPage = ( ) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,15 +20,14 @@ const LoginPage = ({ setUserValidate }) => {
     axios
       .post('/api/login', payload)
       .then((response) => {
-        console.log(response,'response')
+        localStorage.setItem('userValidation', 'true');
         setIsSubmitting(false);
-        setUserValidate(true)
         setValidationErrors('')
         // From this navigation we are going Route '/' which is  base Route where our protected routes are defined on that route if condition is true then we will go dashboard else redirect to login.
         navigate('/')
       })
       .catch((error) => {
-        console.log(error,'error')
+        localStorage.setItem('userValidation', 'false');
         setIsSubmitting(false);
         if (error.response.data.errors != undefined) {
           setValidationErrors(error.response.data.errors);
