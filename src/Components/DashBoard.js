@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Loader from '../Spinner/Loader';
 const DashboardPage = () => {
   const [project, setProject] = useState([]);
 
@@ -26,6 +27,10 @@ const DashboardPage = () => {
 
     return () => (flag = false);
   }, []);
+
+  if (project.length === 0) {
+    return <div>{<Loader />}</div>;
+  }
 
   return (
     (
