@@ -16,7 +16,7 @@ const Navbar = ({ setUserValidate }) => {
         //  But for that we need to update the App component state so that it can again render the all routes and match it.this issue there from  it is redirecting from '/' to '/'
         // so it is not rendering the protected route,to do it we have to pass a state function here so that when we click it will update the state of the App component and 
         //  again render all routes. when we redirect to different route then route will be updated, not on  same route link from  '/' to '/'  .
-        
+
         navigate('/login');
       })
       .catch((error) => {
