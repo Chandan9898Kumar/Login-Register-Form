@@ -4,6 +4,7 @@ const RecordingPage = () => {
   const [progressOne, setProgressOne] = useState(0);
 
   const styles = {
+
     firstProgress: {
       display: 'flex',
       justifyContent: 'center',
@@ -25,6 +26,7 @@ const RecordingPage = () => {
       fontSize: 'larger',
       fontFamily: 'cursive',
     },
+    
   };
 
   const ProgressBarOne = () => {
@@ -33,15 +35,15 @@ const RecordingPage = () => {
         if (prev === 100) {
           clearInterval(time);
           return prev;
-        } else {
-          return prev + 1;
         }
+        return prev + 1;
       });
-    }, 400);
+    }, 1000);
   };
 
   return (
     <div className="progressHead">
+
       <div style={styles.firstProgress}>
         <div style={{ color: 'green' }}>Progress Bar 1.</div>
         <div>
@@ -57,9 +59,10 @@ const RecordingPage = () => {
           </button>
         </div>
       </div>
-      <div style={{textAlign:'center'}}>
-            <span style={{ color: 'black' }}>{progressOne}</span>
-          </div>
+      <div style={{ textAlign: 'center' }}>
+        <span style={{ color: 'black' }}>{progressOne}</span>
+      </div>
+      
     </div>
   );
 };

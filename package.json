@@ -22,7 +22,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "webpack-dev-server --node-env=development",
+    "start": "webpack-dev-server --mode development",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.js\"",
