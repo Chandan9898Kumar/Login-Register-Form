@@ -38,9 +38,10 @@ module.exports = {
 
   // Tell webpack where to put the output file that is generated
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, '/build'),
     publicPath: '/', // publicPath allows you to specify the base path for all the assets within your application.
     filename: 'chunk.[name].[chunkhash].js', // Creating chunk files with this name.
+    // filename: `[name]${process.env.NODE_SHELL_ENV==='development' ? '' : 'chunk.[name].[chunkhash].js'`,
     libraryTarget: 'umd',
     clean: true,
   },
@@ -57,8 +58,11 @@ module.exports = {
     static: {
       directory: path.join(__dirname, '/build'),
       publicPath: '/build',
+      serveIndex: true
     },
+    compress: true,
     hot: true, // use to keep reloading ui when some changes happens.
+    // lazy: true,  // When devServer.lazy is enabled, the dev-server will only compile the bundle when it gets requested. This means that webpack will not watch any file changes. We call this lazy mode.
   },
   module: {
     rules: [
@@ -122,6 +126,11 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve('./public/index.html'),
+      filename: 'index.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+      },
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',

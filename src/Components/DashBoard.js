@@ -7,7 +7,7 @@ const DashboardPage = () => {
   let styles = {
     head: {
       width: '100%',
-      marginTop: '10%',
+      marginTop: '5%',
     },
     card: {
       width: '700px',
