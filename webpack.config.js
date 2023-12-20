@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanObsoleteChunks = require('webpack-clean-obsolete-chunks');
+const TerserPlugin = require("terser-webpack-plugin");
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // To separate the CSS so that we can load it directly from dist/index.html, use the mini-css-extract-loader Webpack plugin.
 
@@ -130,6 +132,7 @@ module.exports = {
       // Default: false
       deep: true,
     }),
+    // HtmlWebpackPlugin useful for webpack bundles that include a hash in the filename which changes every compilation. 
     new HtmlWebpackPlugin({
       template: path.resolve('./public/index.html'),
       filename: 'index.html',
@@ -137,21 +140,27 @@ module.exports = {
         removeComments: true,
         collapseWhitespace: true,
       },
+      inject: true,
     }),
+
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
+
     // new webpack.EnvironmentPlugin({
     //   NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
     //   DEBUG: false,
     // }),
+
     new webpack.ProvidePlugin({
       process: 'process/browser',
     }),
+
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env),
     }),
+
   ],
 
   // plugins:[
@@ -175,7 +184,10 @@ module.exports = {
     runtimeChunk: true,
     splitChunks: false,
     removeAvailableModules: false,
-    removeEmptyChunks: false
+    removeEmptyChunks: false,
+    minimizer: [new TerserPlugin({parallel: true,test: /\.js(\?.*)?$/i,})], // This plugin uses terser to minify/minimize your JavaScript. Works only with source-map, inline-source-map, hidden-source-map and nosources-source-map values for the devtool option.
+    // parallel: true show improve the build for the start and production mode is by default heavier task to perform than 'development` mode build.
+    // To boost the build speed, employ the multi-process approach with parallel running . Using parallelization in your build process can result in a significant increase in speed, making it a highly recommended approach. 
   },
 
   //  Some libraries import Node modules but don't use them in the browser. Tell Webpack to provide empty mocks for them so importing them works.
