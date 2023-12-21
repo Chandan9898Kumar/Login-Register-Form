@@ -60,7 +60,7 @@ const RecordingPage = () => {
         </div>
       </div>
       <div style={{ textAlign: 'center' }}>
-        <span style={{ color: 'black' }}>{progressOne}</span>
+        <span style={{ color: 'black',fontSize:'larger' }}>{progressOne}</span>
       </div>
       
     </div>
