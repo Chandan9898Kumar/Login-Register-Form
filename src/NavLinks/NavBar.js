@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './links.css';
 import axios from 'axios';
 const Navbar = ({ setUserValidate }) => {
@@ -62,3 +62,6 @@ const Navbar = ({ setUserValidate }) => {
 };
 
 export default Navbar;
+
+
+//  Note : NavLink is a special version of the <Link> that will add styling attributes to the rendered element when it matches the current URL.

@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useState } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { Navigate, Outlet } from 'react-router-dom';
 import './App.css';
-const Loader = lazy(() => import('./Spinner/Loader'));
+import Loader from './Spinner/Loader';
 const LoginPage = lazy(() => import('./Login/Login'));
 const RegisterPage = lazy(() => import('./Register/Registry'));
 const NavLinks = lazy(() => import('./NavLinks/NavBar'));
@@ -55,7 +55,8 @@ export function NotFound() {
           top: '400px',
         }}
       >
-        <Link to="/">You have landed on a page that doesn't exist.</Link>
+        <Link to="/" preventScrollReset={true} unstable_viewTransition>You have landed on a page that doesn't exist.</Link> 
+        {/*  Link get to the desired page without reloading the page. If you are using <ScrollRestoration>, "preventScrollReset" lets you prevent the scroll position from being reset to the top of the window when the link is clicked. */}
       </div>
     </>
   );
