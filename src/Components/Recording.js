@@ -109,17 +109,15 @@ export function ProgressBarTwo() {
           clearInterval(timer);
           return prev;
         }
-        ref.current.style.width = `${prev * 5}px`;
+        ref.current.style.width = `${prev * 5 + 5}px`;
         return prev + 1;
       });
     }, 300);
   }, []);
 
   return (
-    (
-      <>
-        <input ref={ref} style={styles.progressTwoInput} type="text" />
-      </>
-    )
+    <>
+      <input ref={ref} style={styles.progressTwoInput} type="text" />
+    </>
   );
 }
