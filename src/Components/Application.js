@@ -47,7 +47,7 @@ const ApplicationPage = () => {
         <tbody>
           {application?.map((item, index) => {
             return (
-              <tr>
+              <tr key={item.id}>
                 <th scope="row">{item.id}</th>
                 <td>{item.name}</td>
                 <td>
