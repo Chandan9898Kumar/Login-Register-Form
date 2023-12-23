@@ -42,37 +42,48 @@ module.exports = {
 
   // Tell webpack where to put the output file that is generated
   output: {
-    path: path.resolve(__dirname, '/build'),
-    publicPath: '/', // publicPath allows you to specify the base path for all the assets within your application.
+    path: path.resolve(__dirname, 'build'),
+    publicPath: 'auto', // publicPath allows you to specify the base path for all the assets within your application.
+    // publicPath: 'auto' - There are chances that you don't know what the publicPath will be in advance, and webpack can handle it automatically for you by determining the public path from variables.
 
     // filename: 'chunk.[name].[chunkhash].js', // Creating chunk files with this name.
     // filename: `[name]${process.env.NODE_SHELL_ENV==='development' ? '' : 'chunk.[name].[chunkhash].js'`,
 
     //    Note : ChunkHash should only be used in production. Use fullhash for development.
-    filename: process.env.NODE_ENV === 'production' ? 'chunk.[name].[chunkhash].js' : 'chunk.[name].[fullhash].js',
+    filename: process.env.NODE_ENV === 'production' ? '[name].[chunkhash].js' : '[name].[fullhash].js',
+    chunkFilename: process.env.NODE_ENV === 'production' ? 'chunk.[name].[chunkhash].js' : 'chunk.[name].[fullhash].js',
     libraryTarget: 'umd',
     clean: true, // Clean the output directory before emit.
   },
   devServer: {
+    server: 'https',   // Allows to set server and options (by default 'http').
+    allowedHosts: 'auto',
     // Prints compilation progress in percentage in the browser.
     client: {
-      progress: true,
+      progress: true, // Prints compilation progress in percentage in the browser.
+      reconnect: true, // Tells dev-server the number of times it should try to reconnect the client. When true it will try to reconnect unlimited times.
     },
     // stats: {
     //   cached: false
     // },
-    port: 3000,
+    port: 3000, // Application will run at port 3000
     historyApiFallback: true, // historyAPIFallback will redirect 404s to /index.html
+    //  This option "static" allows configuring options for serving static files from the directory (by default 'public' directory). To disable set it to false.  static: false,
     static: {
-      directory: path.join(__dirname, '/build'),
-      publicPath: '/build',
-      serveIndex: true
+      // It is recommended to use an absolute path.
+      directory: path.join(__dirname, 'App.js'), // Tell the server where to serve the content from. This is only necessary if you want to serve static files. static.publicPath will be used to determine where the bundles should be served from and takes precedence.
+      publicPath: '/serve-public-path-url',   // Tell the server at which URL to serve static.directory content. so when go to https://localhost:3000/serve-public-path-url then you can see you App,js component.
+      serveIndex: true // serveIndex middleware generates directory listings on viewing directories that don't have an index.html file.
     },
-    compress: true,
-    hot: true, // use to keep reloading ui when some changes happens.
+    compress: true, // Enable gzip compression for everything served:
+    hot: true, // use to keep reloading ui when some changes happens. "hot: true" automatically applies HMR plugin, you don't have to add it manually to your webpack configuration.
     // lazy: true,  // When devServer.lazy is enabled, the dev-server will only compile the bundle when it gets requested. This means that webpack will not watch any file changes. We call this lazy mode.
+    // proxy: {
+    //   '/api': 'https://localhost:3000'
+    // }
   },
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.m?js$/,

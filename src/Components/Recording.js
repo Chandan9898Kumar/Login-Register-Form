@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-
+import './application.css';
 const RecordingPage = () => {
   const [progressOne, setProgressOne] = useState(0);
 
@@ -25,17 +25,6 @@ const RecordingPage = () => {
       fontSize: 'larger',
       fontFamily: 'cursive',
     },
-    progressTwo: {
-      display: 'block',
-      width: '500px',
-      background: 'wheat',
-      height: '30px',
-      margin: 'auto',
-      position: 'relative',
-      borderRadius: '15px',
-      border: '1px solid black',
-      overflow: 'hidden',
-    },
   };
 
   const ProgressBarOne = () => {
@@ -47,7 +36,7 @@ const RecordingPage = () => {
         }
         return prev + 1;
       });
-    }, 1000);
+    }, 800);
   };
 
   return (
@@ -72,15 +61,7 @@ const RecordingPage = () => {
           {progressOne}
         </span>
       </div>
-
-      <br />
-
-      <div style={styles.firstProgress}>
-        <div style={{ color: 'green' }}> Progress Bar 2.</div>
-        <div style={styles.progressTwo}>
-          <ProgressBarTwo />
-        </div>
-      </div>
+      <ProgressBarTwo />
     </div>
   );
 };
@@ -100,6 +81,17 @@ export function ProgressBarTwo() {
       borderRadius: '20px',
       background: 'cadetblue',
     },
+    progressTwo: {
+      display: 'block',
+      width: '500px',
+      background: 'wheat',
+      height: '30px',
+      margin: 'auto',
+      position: 'relative',
+      borderRadius: '15px',
+      border: '1px solid black',
+      overflow: 'hidden',
+    },
   };
 
   useEffect(() => {
@@ -117,7 +109,22 @@ export function ProgressBarTwo() {
 
   return (
     <>
-      <input ref={ref} style={styles.progressTwoInput} type="text" />
+      <div className="center">
+        <div style={{ color: 'green' }}> Progress Bar 2.</div>
+        <div style={styles.progressTwo}>
+          <input ref={ref} style={styles.progressTwoInput} type="text" />
+        </div>
+        <div
+          style={{
+            fontFamily: 'cursive',
+            fontSize: 'larger',
+            fontWeight: 'bolder',
+            color: 'grey',
+          }}
+        >
+          {`${value}%`}
+        </div>
+      </div>
     </>
   );
 }
