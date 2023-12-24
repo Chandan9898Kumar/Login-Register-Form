@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanObsoleteChunks = require('webpack-clean-obsolete-chunks');
 const TerserPlugin = require("terser-webpack-plugin");
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // To separate the CSS so that we can load it directly from dist/index.html, use the mini-css-extract-loader Webpack plugin.
 
@@ -43,20 +43,25 @@ module.exports = {
   // Tell webpack where to put the output file that is generated
   output: {
     path: path.resolve(__dirname, 'build'),
-    publicPath: 'auto', // publicPath allows you to specify the base path for all the assets within your application.
     // publicPath: 'auto' - There are chances that you don't know what the publicPath will be in advance, and webpack can handle it automatically for you by determining the public path from variables.
+    publicPath: 'auto', 
+    //  publicPath allows you to specify the base path for all the assets within your application. The publicPath will be used within our server script as well in order to make sure files are served correctly on http://localhost:3000
 
     // filename: 'chunk.[name].[chunkhash].js', // Creating chunk files with this name.
     // filename: `[name]${process.env.NODE_SHELL_ENV==='development' ? '' : 'chunk.[name].[chunkhash].js'`,
 
-    //    Note : ChunkHash should only be used in production. Use fullhash for development.
+    // Note : ChunkHash should only be used in production. Use fullhash for development.
     filename: process.env.NODE_ENV === 'production' ? '[name].[chunkhash].js' : '[name].[fullhash].js',
     chunkFilename: process.env.NODE_ENV === 'production' ? 'chunk.[name].[chunkhash].js' : 'chunk.[name].[fullhash].js',
     libraryTarget: 'umd',
     clean: true, // Clean the output directory before emit.
   },
   devServer: {
-    server: 'https',   // Allows to set server and options (by default 'http').
+    headers: {
+      "access-control-allow-origin": "*",
+      "cache-control": "private, max-age=0",
+    },
+    server: 'http',   // Allows to set server and options (by default 'http'). we put https as well.
     allowedHosts: 'auto',
     // Prints compilation progress in percentage in the browser.
     client: {
@@ -131,6 +136,11 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.handlebars/,
+        use: 'handlebars-loader',
+        exclude: /node_modules/
+      }
     ],
   },
   plugins: [
@@ -143,7 +153,8 @@ module.exports = {
       // Default: false
       deep: true,
     }),
-    // HtmlWebpackPlugin useful for webpack bundles that include a hash in the filename which changes every compilation. 
+
+    // HtmlWebpackPlugin useful for webpack bundles that include a hash in the filename which changes every compilation. The plugin will generate an HTML5 file for you that includes all your webpack bundles in the body using script
     new HtmlWebpackPlugin({
       template: path.resolve('./public/index.html'),
       filename: 'index.html',
@@ -152,6 +163,16 @@ module.exports = {
         collapseWhitespace: true,
       },
       inject: true,
+      hash: true,
+      title: 'Development',
+    }),
+
+    // CleanWebpackPlugin is  A webpack plugin to remove/clean your build folder(s). when you run run npm start this plugin will remove the build folder which you created by npm run build. 
+    new CleanWebpackPlugin({
+      root: process.cwd(),
+      verbose: true,
+      dry: false,
+      cleanOnceBeforeBuildPatterns: ["**/*", "!stats.json","!important.js", "!folder/**/*"],
     }),
 
     new MiniCssExtractPlugin({
@@ -191,7 +212,8 @@ module.exports = {
   // but can be costly in larger ones:
   optimization: {
     minimize: true,
-    // runtimeChunk: 'single', // This makes sure we only have a single runtime (with module cache) and modules are not instantiated twice.
+    // runtimeChunk: 'single', // This makes sure we only have a single runtime (with module cache) and modules are not instantiated twice. 
+    // The optimization.runtimeChunk: 'single' was added when we have more than one entrypoint on a single HTML page.
     runtimeChunk: true,
     splitChunks: false,
     removeAvailableModules: false,

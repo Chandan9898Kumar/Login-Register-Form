@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+.firstProgress {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  margin-top: 50px;
+}
 .center {
   display: inline-flex;
   position: relative;
@@ -14,6 +21,10 @@
 @media only screen and (min-device-width: 768px) and (max-device-width: 900px) {
   .center {
     left: auto;
+    width: -webkit-fill-available;
+  }
+  .firstProgress{
+    gap: 38px;
   }
 }
 

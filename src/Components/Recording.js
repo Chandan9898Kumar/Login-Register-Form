@@ -41,7 +41,7 @@ const RecordingPage = () => {
 
   return (
     <div>
-      <div style={styles.firstProgress}>
+      <div className='firstProgress'>
         <div style={{ color: 'green' }}>Progress Bar 1.</div>
         <div>
           <progress

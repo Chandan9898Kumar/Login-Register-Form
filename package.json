@@ -58,6 +58,7 @@
     "@babel/preset-react": "^7.10.1",
     "@sanity/eslint-config-studio": "^3.0.1",
     "babel-cli": "^6.26.0",
+    "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.8.1",
     "eslint": "^8.36.0",
     "html-webpack-plugin": "^5.5.4",
