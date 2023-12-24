@@ -44,7 +44,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     // publicPath: 'auto' - There are chances that you don't know what the publicPath will be in advance, and webpack can handle it automatically for you by determining the public path from variables.
-    publicPath: 'auto', 
+    publicPath: '/', 
     //  publicPath allows you to specify the base path for all the assets within your application. The publicPath will be used within our server script as well in order to make sure files are served correctly on http://localhost:3000
 
     // filename: 'chunk.[name].[chunkhash].js', // Creating chunk files with this name.
@@ -59,7 +59,9 @@ module.exports = {
   devServer: {
     headers: {
       "access-control-allow-origin": "*",
-      "cache-control": "private, max-age=0",
+      // "Access-Control-Allow-Origin" :"*",
+      'Access-Control-Allow-Credentials':true,
+      "cache-control": "private, max-age=31536000",
     },
     server: 'http',   // Allows to set server and options (by default 'http'). we put https as well.
     allowedHosts: 'auto',
@@ -218,7 +220,7 @@ module.exports = {
     splitChunks: false,
     removeAvailableModules: false,
     removeEmptyChunks: false,
-    minimizer: [new TerserPlugin({parallel: true,test: /\.js(\?.*)?$/i,})], // This plugin uses terser to minify/minimize your JavaScript. Works only with source-map, inline-source-map, hidden-source-map and nosources-source-map values for the devtool option.
+    minimizer: [new TerserPlugin({parallel: true,test: /\.js(\?.*)?$/i,terserOptions: {compress: false,mangle: true}})], // This plugin uses terser to minify/minimize your JavaScript. Works only with source-map, inline-source-map, hidden-source-map and nosources-source-map values for the devtool option.
     // parallel: true show improve the build for the start and production mode is by default heavier task to perform than 'development` mode build.
     // To boost the build speed, employ the multi-process approach with parallel running . Using parallelization in your build process can result in a significant increase in speed, making it a highly recommended approach. 
   },
