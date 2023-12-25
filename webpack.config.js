@@ -25,9 +25,9 @@ module.exports = {
   // Tell webpack the root file of our
   entry: './src/index.js',
 
-  //  devtool: "eval-cheap-module-source-map" offers SourceMaps that only maps lines (no column mappings) and are much faster.
-  //  devtool: "source-map" cannot cache SourceMaps for modules and need to regenerate complete SourceMap for the chunk. It’s something for production. 
-  devtool: isProd =='production' ? 'eval-cheap-module-source-map' : 'source-map', 
+  //  devtool: "eval-cheap-module-source-map" offers SourceMaps that only maps lines (no column mappings) and are much faster. eval-source-map as being slow on builds and fast on rebuilds, and recommended for development
+  //  devtool: "source-map" cannot cache SourceMaps for modules and need to regenerate complete SourceMap for the chunk. It’s something for production. source-map is slow on both build and rebuild, but tagged as suited for production because "A full SourceMap is emitted as a separate file. It adds a reference comment to the bundle so development tools know where to find it." 
+  devtool: isProd  ? 'eval-cheap-module-source-map' : 'source-map', 
 
   resolve: {
     alias: {
@@ -235,5 +235,18 @@ module.exports = {
   // },
 
   // Turn off performance hints during development because we don't do any splitting or minification in interest of speed. These warnings become cumbersome.
-  performance: false
+  performance: false,
+  
+  // The externals configuration option provides a way of excluding dependencies from the output bundles. 
+  // Instead, the created bundle relies on that dependency to be present in the consumer's (any end-user application) environment. 
+  // This feature is typically most useful to library developers, however there are a variety of applications for it.
+  
+  // externals: {
+  //   react: {
+  //     root: 'React',
+  //     commonjs2: 'react',
+  //     commonjs: 'react',
+  //     amd: 'react',
+  //   },
+  // },
 };

@@ -27,8 +27,10 @@ const RegisterPage = () => {
       .then((Response) => {
         setIsSubmitting(false);
         //  we can use localStorage here to store user information by simply passing payload inside localStorage and later for login purpose we get these details from localStorage and validate if user has typed correct data or not.
-        //  For this project we are using axios api and localStorage, just for practice we used localStorage.
-        localStorage.setItem('validation',JSON.stringify({ userAuth: Response.data, pass: password }));
+        //  For this project we are using axios api and localStorage, in localStorage we storing user Token for validating if the user authorized or not.
+        //  This what we called JWT Authorization by storing token in localStorage.
+        localStorage.setItem('credentials',JSON.stringify({ userAuth: Response.data, pass: password }));
+        localStorage.setItem('token', Response.data.token)
         //  Note :  When the user successfully registered then we are redirecting user to login page where user have to put their registered credentials.
         //  we can also redirect user directly to Dashboard by doing navigate('/').
         navigate('/login');

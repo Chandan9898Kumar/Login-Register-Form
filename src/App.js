@@ -39,7 +39,7 @@ function App() {
 
             {/*               These  are Private Routes                                */}
 
-            <Route exact path="/" element={<PrivateRoute setUserValidate={setUserValidate} />} >
+            <Route exact path="/" element={<PrivateRoute  />} >
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/application" element={<Application />} />
               <Route exact path="/recording" element={<Recording load={load} startLoading={startLoading} />} />
@@ -79,24 +79,25 @@ export function NotFound() {
   );
 }
 
-export const PrivateRoute = ({ setUserValidate }) => {
+export const PrivateRoute = () => {
   // determine if authorized, from context or however you're doing it
-  let userAuth = JSON.parse(localStorage.getItem('userValidation'));
+  
+  const authorizedToken = localStorage.getItem('token')
   // If you are entering the url directing into the browser, React will reload completely and you will lose all state whether 'global' or otherwise.
-  //  so to maintain it we are using localStorage.
+  // we are storing token in localStorage for user validation and even if we entering the url directing into the browser and react will reload page so data from localStorage still be there.
 
   // If authorized, return an outlet that will render child elements
   // If not, return element that will navigate to login page.
   //  User can't go to home page whose base url "/" until they are verified, but they can go to other routes if we do not put Route inside <PrivateRoute />.
 
-  if (!userAuth) {
+  if (!authorizedToken) {
     return <Navigate to="/login" />;
   }
   return (
     <div>
-      {userAuth && (
+      {authorizedToken && (
         <div>
-          <NavLinks setUserValidate={setUserValidate} />
+          <NavLinks  />
           <Outlet />
         </div>
       )}

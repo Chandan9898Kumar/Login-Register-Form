@@ -20,14 +20,14 @@ const LoginPage = ( ) => {
     axios
       .post('/api/login', payload)
       .then((response) => {
-        localStorage.setItem('userValidation', 'true');
+        localStorage.setItem('token', response.data.token)
         setIsSubmitting(false);
         setValidationErrors('')
         // From this navigation we are going Route '/' which is  base Route where our protected routes are defined on that route if condition is true then we will go dashboard else redirect to login.
+        //  Note : Here we are redirecting from "/login" to "/" so out Protected route will render and check. not from '/' to '/'
         navigate('/')
       })
       .catch((error) => {
-        localStorage.setItem('userValidation', 'false');
         setIsSubmitting(false);
         if (error.response.data.errors != undefined) {
           setValidationErrors(error.response.data.errors);
