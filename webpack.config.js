@@ -23,7 +23,10 @@ module.exports = {
   target: 'web',
 
   // Tell webpack the root file of our
-  entry: './src/index.js',
+  // entry: './src/index.js',
+  entry: {
+    bundle: path.resolve(__dirname, './src/index.js'),
+  },
 
   //  devtool: "eval-cheap-module-source-map" offers SourceMaps that only maps lines (no column mappings) and are much faster. eval-source-map as being slow on builds and fast on rebuilds, and recommended for development
   //  devtool: "source-map" cannot cache SourceMaps for modules and need to regenerate complete SourceMap for the chunk. It’s something for production. source-map is slow on both build and rebuild, but tagged as suited for production because "A full SourceMap is emitted as a separate file. It adds a reference comment to the bundle so development tools know where to find it." 
@@ -55,6 +58,8 @@ module.exports = {
     chunkFilename: process.env.NODE_ENV === 'production' ? 'chunk.[name].[chunkhash].js' : 'chunk.[name].[fullhash].js',
     libraryTarget: 'umd',
     clean: true, // Clean the output directory before emit.
+    assetModuleFilename: '[name][ext]',
+    sourceMapFilename: "[name].js.map"
   },
   devServer: {
     headers: {
@@ -78,7 +83,7 @@ module.exports = {
     //  This option "static" allows configuring options for serving static files from the directory (by default 'public' directory). To disable set it to false.  static: false,
     static: {
       // It is recommended to use an absolute path.
-      directory: path.join(__dirname, 'App.js'), // Tell the server where to serve the content from. This is only necessary if you want to serve static files. static.publicPath will be used to determine where the bundles should be served from and takes precedence.
+      directory: path.join(__dirname, 'build'), // Tell the server where to serve the content from. This is only necessary if you want to serve static files. static.publicPath will be used to determine where the bundles should be served from and takes precedence.
       publicPath: '/serve-public-path-url',   // Tell the server at which URL to serve static.directory content. so when go to https://localhost:3000/serve-public-path-url then you can see you App,js component.
       serveIndex: true // serveIndex middleware generates directory listings on viewing directories that don't have an index.html file.
     },
