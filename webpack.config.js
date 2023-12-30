@@ -14,10 +14,10 @@ const isProd = process.env.NODE_ENV !== 'production'
 dotenv.config();
 
 module.exports = {
-  name: 'React Bundle',
+  name: 'React Webpack',
 
   // production || development
-  mode: 'development',
+  mode: process.env.NODE_ENV == 'production' ? 'production' : 'development',
   // Inform webpack that we're building a bundle
   // for web, rather then for the browser
   target: 'web',
@@ -171,7 +171,7 @@ module.exports = {
       },
       inject: true,
       hash: true,
-      title: 'Development',
+      title: 'development',
     }),
 
     // CleanWebpackPlugin is  A webpack plugin to remove/clean your build folder(s). when you run run npm start this plugin will remove the build folder which you created by npm run build. 
