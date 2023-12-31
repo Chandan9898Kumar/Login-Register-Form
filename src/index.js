@@ -16,6 +16,13 @@ axios.interceptors.request.use(function (config) {
   return config;
 });
 
+//  To remove console.log in the production build of a React application created. when it is running in production then no console.log will be visible nut in development it will.
+if (process.env.NODE_ENV === 'production') {
+  console.log = () => {}
+  console.error = () => {}
+  console.debug = () => {}
+}
+
 root.render(
   <React.StrictMode>
     <App />
