@@ -61,7 +61,7 @@ const RecordingPage = ({ load, startLoading }) => {
           />
         </div>
         <div style={styles.btnClass}>
-          <button type="button" style={styles.button} onClick={ProgressBarOne}>
+          <button aria-label="Start" type="button" style={styles.button} onClick={ProgressBarOne}>
             Start
           </button>
         </div>
@@ -222,6 +222,7 @@ export const ProgressBarThree = ({ load, startLoading }) => {
         }}
       >
         <button
+          aria-label="Start Recording"
           onClick={startLoading}
           style={{ color: 'black', width: 'inherit' }}
         >
