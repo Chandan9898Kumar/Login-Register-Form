@@ -80,7 +80,7 @@ const RecordingPage = ({ load, startLoading }) => {
 };
 export default memo(RecordingPage);
 
-//                                                                            Progress Bar Two
+//                                                                      Progress Bar Two
 
 export function ProgressBarTwo() {
   const ref = useRef('');
